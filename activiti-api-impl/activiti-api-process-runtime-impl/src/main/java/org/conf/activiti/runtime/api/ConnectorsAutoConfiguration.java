@@ -16,8 +16,6 @@
 
 package org.conf.activiti.runtime.api;
 
-import java.util.List;
-
 import org.activiti.core.common.model.connector.ConnectorDefinition;
 import org.activiti.engine.impl.bpmn.parser.factory.DefaultActivityBehaviorFactory;
 import org.activiti.runtime.api.connector.ConnectorActionDefinitionFinder;
@@ -31,6 +29,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.List;
 
 @Configuration
 public class ConnectorsAutoConfiguration {

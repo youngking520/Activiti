@@ -16,10 +16,6 @@
 
 package org.activiti.runtime.api.connector;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-
 import org.activiti.api.process.model.IntegrationContext;
 import org.activiti.core.common.model.connector.ActionDefinition;
 import org.activiti.core.common.model.connector.VariableDefinition;
@@ -28,11 +24,14 @@ import org.activiti.spring.process.model.Extension;
 import org.activiti.spring.process.model.ProcessExtensionModel;
 import org.activiti.spring.process.model.ProcessVariablesMapping;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
 public class OutboundVariablesProvider {
 
     private ProcessExtensionService processExtensionService;
     private ConnectorActionDefinitionFinder connectorActionDefinitionFinder;
-
 
     public OutboundVariablesProvider(ProcessExtensionService processExtensionService,
                                      ConnectorActionDefinitionFinder connectorActionDefinitionFinder) {
@@ -56,15 +55,15 @@ public class OutboundVariablesProvider {
                     VariableDefinition outBoundVariableDefinition = actionDefinition.getOutputs()
                             .stream()
                             .filter(variableDefinition ->
-                                            variableDefinition.getName().equals(mapping.getValue()))
+                                    variableDefinition.getName().equals(mapping.getValue()))
                             .findFirst()
                             .orElse(null);
                     //fixme have single VariableDefinition
                     org.activiti.spring.process.model.VariableDefinition processVariableDefinition = extensions.getPropertyByName(varName);
                     if (outBoundVariableDefinition != null && processVariableDefinition != null) {
                         mappedOutboundVariables.put(processVariableDefinition.getName(),
-                                                    //use remove instead of get to keep only outbound variables without mapping
-                                                    outboundVariables.remove(outBoundVariableDefinition.getName()));
+                                //use remove instead of get to keep only outbound variables without mapping
+                                outboundVariables.remove(outBoundVariableDefinition.getName()));
                     }
                 });
         outboundVariables.forEach(
@@ -74,7 +73,7 @@ public class OutboundVariablesProvider {
                                 .filter(matchingDefinition -> matchingDefinition.getName().equals(key))
                                 .findFirst()
                                 .map(variableDefinition -> mappedOutboundVariables.put(key,
-                                                                                       value)));
+                                        value)));
         return mappedOutboundVariables;
     }
 

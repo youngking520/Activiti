@@ -1,13 +1,13 @@
 package org.activiti.runtime.api.connector;
 
+import org.activiti.core.common.model.connector.ActionDefinition;
+import org.activiti.core.common.model.connector.ConnectorDefinition;
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import org.activiti.core.common.model.connector.ActionDefinition;
-import org.activiti.core.common.model.connector.ConnectorDefinition;
-import org.apache.commons.lang3.StringUtils;
 
 public class ConnectorActionDefinitionFinder {
 
@@ -20,14 +20,14 @@ public class ConnectorActionDefinitionFinder {
     public Optional<ActionDefinition> find(String implementation) {
 
         String connectorName = StringUtils.substringBefore(implementation,
-                                                           ".");
+                ".");
         String actionName = StringUtils.substringAfter(implementation,
-                                                       ".");
+                ".");
 
         ConnectorDefinition connectorDefinition = findConnector(connectorName);
 
         ActionDefinition actionDefinition = findActionDefinition(actionName,
-                                                                 connectorDefinition);
+                connectorDefinition);
 
         return Optional.ofNullable(actionDefinition);
     }
@@ -40,8 +40,7 @@ public class ConnectorActionDefinitionFinder {
         ConnectorDefinition connectorDefinition = null;
         if (resultingConnectors != null && !resultingConnectors.isEmpty()) {
             if (resultingConnectors.size() != 1) {
-                throw new RuntimeException("Expecting exactly 1 connector definition with name mapping `" + connectorName +
-                                                   "`, but were found " + resultingConnectors.size());
+                throw new RuntimeException("Expecting exactly 1 connector definition with name mapping `" + connectorName + "`, but were found " + resultingConnectors.size());
             }
 
             connectorDefinition = resultingConnectors.get(0);
@@ -54,18 +53,16 @@ public class ConnectorActionDefinitionFinder {
         ActionDefinition actionDefinition = null;
         if (connectorDefinition != null) {
             List<ActionDefinition> actionDefinitions = filterByName(connectorDefinition.getActions(),
-                                                                    actionName);
+                    actionName);
             if (actionDefinitions != null) {
                 if (actionDefinitions.size() != 1) {
-                    throw new RuntimeException("Expecting exactly 1 action definition with name mapping `" + actionName +
-                                                       "`, but were found " + actionDefinitions.size());
+                    throw new RuntimeException("Expecting exactly 1 action definition with name mapping `" + actionName + "`, but were found " + actionDefinitions.size());
                 }
                 actionDefinition = actionDefinitions.get(0);
             }
 
             if (actionDefinition == null) {
-                throw new RuntimeException("No action with name mapping `" + actionName + "` was found in connector `" +
-                                                   connectorDefinition.getName() + "`");
+                throw new RuntimeException("No action with name mapping `" + actionName + "` was found in connector `" + connectorDefinition.getName() + "`");
             }
         }
         return actionDefinition;

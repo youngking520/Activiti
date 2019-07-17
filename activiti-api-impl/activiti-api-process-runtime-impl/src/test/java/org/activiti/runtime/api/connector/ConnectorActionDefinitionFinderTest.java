@@ -16,15 +16,15 @@
 
 package org.activiti.runtime.api.connector;
 
+import org.activiti.core.common.model.connector.ActionDefinition;
+import org.activiti.core.common.model.connector.ConnectorDefinition;
+import org.junit.Test;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.UUID;
-
-import org.activiti.core.common.model.connector.ActionDefinition;
-import org.activiti.core.common.model.connector.ConnectorDefinition;
-import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -33,10 +33,6 @@ public class ConnectorActionDefinitionFinderTest {
     @Test
     public void findShouldReturnActionMatchingWithImplementation() {
         //given
-        ConnectorDefinition firstConnector = buildConnector("firstConnector");
-        ConnectorDefinition secondConnector = buildConnector("secondConnector");
-        ConnectorDefinition thirdConnector = buildConnector("thirdConnector");
-
         ActionDefinition firstAction = buildActionDefinition("firstAction");
         ActionDefinition secondAction = buildActionDefinition("secondAction");
         ActionDefinition thirdAction = buildActionDefinition("thirdAction");
@@ -46,11 +42,15 @@ public class ConnectorActionDefinitionFinderTest {
         actions.put(secondAction.getId(), secondAction);
         actions.put(thirdAction.getId(), thirdAction);
 
+        ConnectorDefinition firstConnector = buildConnector("firstConnector");
+        ConnectorDefinition secondConnector = buildConnector("secondConnector");
+        ConnectorDefinition thirdConnector = buildConnector("thirdConnector");
+
         secondConnector.setActions(actions);
 
         ConnectorActionDefinitionFinder finder = new ConnectorActionDefinitionFinder(Arrays.asList(firstConnector,
-                                                                                                                            secondConnector,
-                                                                                                                            thirdConnector));
+                secondConnector,
+                thirdConnector));
 
         //when
         ActionDefinition actionDefinition = finder.find("secondConnector.secondAction").orElse(null);

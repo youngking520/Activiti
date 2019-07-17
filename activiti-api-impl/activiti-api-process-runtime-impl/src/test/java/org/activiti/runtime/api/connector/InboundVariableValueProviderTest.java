@@ -16,10 +16,6 @@
 
 package org.activiti.runtime.api.connector;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.activiti.engine.delegate.DelegateExecution;
 import org.activiti.spring.process.ProcessExtensionService;
 import org.activiti.spring.process.model.Extension;
@@ -30,6 +26,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
@@ -53,18 +53,19 @@ public class InboundVariableValueProviderTest {
     public void calculateStaticValuesShouldResolveMappingsOfTypeStaticValue() {
         //given
         String serviceTaskUUID = "serviceTaskId";
-        DelegateExecution execution = buildExecution(serviceTaskUUID,
-                                                     "procDefId");
 
         Map<String, Mapping> inputs = new HashMap<>();
         inputs.put("staticValue1",
-                   buildStaticMapping("firstStatic"));
+                buildStaticMapping("firstStatic"));
         inputs.put("staticValue2",
-                   buildStaticMapping("secondStatic"));
+                buildStaticMapping("secondStatic"));
         inputs.put("var",
-                   buildVariableMapping("myVar"));
+                buildVariableMapping("myVar"));
         inputs.put("value",
-                   buildValueMapping("inValue"));
+                buildValueMapping("inValue"));
+
+        DelegateExecution execution = buildExecution(serviceTaskUUID,
+                "procDefId");
 
         given(processExtensionService.getExtensionsForId(execution.getProcessDefinitionId()))
                 .willReturn(buildExtension(serviceTaskUUID, inputs));
@@ -76,9 +77,9 @@ public class InboundVariableValueProviderTest {
         //then
         assertThat(staticValues)
                 .containsEntry("staticValue1",
-                               "firstStatic")
+                        "firstStatic")
                 .containsEntry("staticValue2",
-                               "secondStatic")
+                        "secondStatic")
                 .hasSize(2);
     }
 
@@ -97,7 +98,7 @@ public class InboundVariableValueProviderTest {
         ProcessVariablesMapping processVariablesMapping = new ProcessVariablesMapping();
         processVariablesMapping.setInputs(inputs);
         extension.setMappings(Collections.singletonMap(serviceTaskUUID,
-                                                       processVariablesMapping));
+                processVariablesMapping));
         processExtensionModel.setExtensions(extension);
         return processExtensionModel;
     }

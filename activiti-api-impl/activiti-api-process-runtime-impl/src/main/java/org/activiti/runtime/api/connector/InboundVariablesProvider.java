@@ -16,13 +16,13 @@
 
 package org.activiti.runtime.api.connector;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.activiti.core.common.model.connector.ActionDefinition;
 import org.activiti.core.common.model.connector.VariableDefinition;
 import org.activiti.engine.delegate.DelegateExecution;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class InboundVariablesProvider {
 
@@ -42,10 +42,10 @@ public class InboundVariablesProvider {
             inboundVariables = new HashMap<>();
             connectorInputs.forEach(variableDefinition -> {
                 Object value = mappedValueProvider.calculateMappedValue(variableDefinition,
-                                                                        execution);
+                        execution);
                 if (value != null) {
                     inboundVariables.put(variableDefinition.getName(),
-                                         value);
+                            value);
                 }
             });
         }

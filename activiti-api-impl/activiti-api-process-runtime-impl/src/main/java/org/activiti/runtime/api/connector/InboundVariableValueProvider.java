@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2019 Alfresco, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,15 +16,15 @@
 
 package org.activiti.runtime.api.connector;
 
-import java.util.Map;
-import java.util.stream.Collectors;
-
 import org.activiti.core.common.model.connector.VariableDefinition;
 import org.activiti.engine.delegate.DelegateExecution;
 import org.activiti.spring.process.ProcessExtensionService;
 import org.activiti.spring.process.model.Mapping;
 import org.activiti.spring.process.model.ProcessExtensionModel;
 import org.activiti.spring.process.model.ProcessVariablesMapping;
+
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class InboundVariableValueProvider {
 
@@ -45,7 +45,7 @@ public class InboundVariableValueProvider {
             }
             if (Mapping.SourceMappingType.VARIABLE.equals(inputMapping.getType())) {
                 String name = inputMapping.getValue().toString();
-                
+
                 //This is extra check, we may search variable simply by variableName
                 org.activiti.spring.process.model.VariableDefinition processVariableDefinition = extensions.getExtensions().getPropertyByName(name);
                 if (processVariableDefinition != null) {

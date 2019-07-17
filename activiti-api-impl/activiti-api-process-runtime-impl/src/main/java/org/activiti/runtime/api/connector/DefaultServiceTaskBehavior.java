@@ -16,8 +16,6 @@
 
 package org.activiti.runtime.api.connector;
 
-import java.util.Optional;
-
 import org.activiti.api.process.model.IntegrationContext;
 import org.activiti.api.process.runtime.connector.Connector;
 import org.activiti.bpmn.model.ServiceTask;
@@ -25,6 +23,8 @@ import org.activiti.core.common.model.connector.ActionDefinition;
 import org.activiti.engine.delegate.DelegateExecution;
 import org.activiti.engine.impl.bpmn.behavior.AbstractBpmnActivityBehavior;
 import org.springframework.context.ApplicationContext;
+
+import java.util.Optional;
 
 public class DefaultServiceTaskBehavior extends AbstractBpmnActivityBehavior {
 
@@ -53,10 +53,10 @@ public class DefaultServiceTaskBehavior extends AbstractBpmnActivityBehavior {
 
         Connector connector = getConnector(getImplementation(execution));
         IntegrationContext integrationContext = connector.apply(integrationContextBuilder.from(execution,
-                                                                                    actionDefinition));
+                actionDefinition));
 
         execution.setVariables(outboundVariablesProvider.calculateVariables(integrationContext,
-                                                                            actionDefinition));
+                actionDefinition));
 
         leave(execution);
     }
@@ -73,7 +73,7 @@ public class DefaultServiceTaskBehavior extends AbstractBpmnActivityBehavior {
 
     private Connector getConnector(String implementation) {
         return applicationContext.getBean(implementation,
-                                          Connector.class);
+                Connector.class);
     }
 
     private String getServiceTaskImplementation(DelegateExecution execution) {
@@ -82,7 +82,6 @@ public class DefaultServiceTaskBehavior extends AbstractBpmnActivityBehavior {
 
     public boolean hasConnectorBean(DelegateExecution execution) {
         String implementation = getServiceTaskImplementation(execution);
-        return applicationContext.containsBean(implementation)
-                && applicationContext.getBean(implementation) instanceof Connector;
+        return applicationContext.containsBean(implementation) && applicationContext.getBean(implementation) instanceof Connector;
     }
 }
